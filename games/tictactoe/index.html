@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Tic Tac Toe Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <h1>Tic Tac Toe Game</h1>
+    <p>Player
+        <span class="player-symbol">X</span>'s Turn</p>
+    <div class="game">
+        <div class="row">
+            <div class="cell" data-row="0" data-col="0" data-diag="0">&nbsp;</div>
+            <div class="cell" data-row="0" data-col="1">&nbsp;</div>
+            <div class="cell" data-row="0" data-col="2" data-diag="1">&nbsp;</div>
+        </div>
+        <div class="row">
+            <div class="cell" data-row="1" data-col="0"> &nbsp;</div>
+            <div class="cell" data-row="1" data-col="1" data-diag="2">&nbsp;</div>
+            <div class="cell" data-row="1" data-col="2">&nbsp;</div>
+        </div>
+        <div class="row">
+            <div class="cell" data-row="2" data-col="0" data-diag="1">&nbsp;</div>
+            <div class="cell" data-row="2" data-col="1">&nbsp;</div>
+            <div class="cell" data-row="2" data-col="2" data-diag="0">&nbsp;</div>
+        </div>
+    </div>
+    <button>Start</button>
+    <button>Restart</button>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
