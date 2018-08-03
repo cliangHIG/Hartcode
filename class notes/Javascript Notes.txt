@@ -1,0 +1,229 @@
+
+Javascript
+
+
+index.html
+style.css
+script.js
+
+
+<body>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+
+
+Primitive Data Types
+
+Numbers
+Strings
+Booleans
+Undefined
+Null
+
+
+
+.search(): find the starting index of a string value. String indexes are 0-based, so the index of a string's first character is 0.
+
+var greetings = "Hi there friend!";
+greetings.search("friend");
+
+
+
+.substr(): return and store a portion of a string. First argument is the start position; second argument is the length of the section you copy.
+
+var buddy = greetings.substr(9, 6);
+
+
+
+.slice(): returns a copy of a section of a string. First argument is the start position; second argument is the end position.
+
+var buddy = greetings.slice(9, 15);
+
+
+
+Syntax: backslash + letter (e.g., "\n").
+// "\n" = new line
+"Hello\nGoodbye";
+// returns"Hello"
+// returns"Goodbye"
+
+// "\t" = tab
+"\tOnce upon a time...";
+// returns "     Once upon a time..."
+
+
+
+Comparison Operators
+== - equal (in value)
+=== - equal (in value and data type)
+!= - not equal (in value)
+!== - not equal (in value and data type)
+< - less than
+> - greater than
+<= - less than or equal to
+>= - greater than or equal to
+
+
+Logical Operators
+!  not
+&& and
+|| or
+
+
+Converting strings to  numbers
+parseInt("3");
+// => 3
+// parseInt converts a string to a number value, if available.
+
+parseInt("burrito");
+// => NaN, because "burrito" cannot be converted into a number
+
+
+Methods
+alert()
+prompt
+console.log
+
+
+Control Flow/Conditionals
+let assignments_completed = 0;
+
+if (assignments_completed === 0) {
+  console.log("Work on your homework!");
+} else if (assignments_completed === 1) {
+  console.log("Good work, still more to go");
+} else if (assignments_completed === 2) {
+  console.log("Almost there!");
+} else {
+  console.log("You are done!");
+}
+
+
+Array heper methods
+
+a.toString() - Returns a string with the toString() of each element separated by commas.
+
+a.pop() - Removes and returns the last item.
+
+a.push(item1, ..., itemN) - Push adds one or more items to the end.
+
+a.reverse() - Reverse the array.
+
+a.shift() - Removes and returns the first item.
+
+a.unshift([item]) - Prepends items to the start of the array.
+
+
+Looping thru an array
+
+var teams = ['Bruins', 'Cal Bears', 'Ravens', 'Ducks'];
+for (var i = 0; i < teams.length; i++) {
+	console.log(teams[i]);
+}
+
+var teams = ['Bruins', 'Cal Bears', 'Ravens', 'Ducks'];
+teams.forEach(function(el) {
+    console.log(el);
+});
+
+
+Array.every() - Tests whether all elements in the array pass the test implemented by the provided function
+Array.some() - Tests whether at least one element in the array passes the test implemented by the provided function
+Array.filter() - Creates a new array with all elements that pass the test implemented by the provided function
+Array.map() - Creates a new array with the results of calling a provided function on every element in the calling array
+Array.reduce() - Applies a function against an accumulator and each element in the array (from left to right) to reduce it to a single value
+removeVowels This function will take a string as an argument, and then return that same string without any vowels.
+getMiddleCharacters This function should return the middle characters of an inputted string.
+
+
+
+Functions - reusable block of code
+
+Declaration - Hoisting
+function multiply(num1, num2) {
+  return num1 * num2;
+}
+
+Expression
+var multiply = function(num1, num2) {
+  return num1 * num2;
+};
+
+
+DOM
+
+Method Name	Description
+.getElementById()	Gets a single element by an ID selector
+.getElementsByClassName()	Gets a list of elements with a class selector
+.getElementsByTagName()	Gets a list of elements with a tag (element) selector
+
+If we want to add a new DIV that provides a nice greeting, our vanilla JavaScript would have to be:
+
+  var myDiv = document.getElementById('container');
+  var newP = document.createElement('p');
+  newP.innerHTML = "Hello complicated, multi-step world of adding an element to the DOM!";
+  myDiv.appendChild(newP);
+
+
+Types of Events
+
+Document / Window Events
+load
+resize
+scroll
+unload
+
+Mouse Events
+click
+dblclick
+mouseenter
+mouseleave
+
+Key Events
+keypress
+keydown
+keyup
+
+Form Events
+submit
+change
+focus
+
+
+const button = document.querySelector('.js-button')
+button.addEventListener('click', handleClickEvent)
+
+function handleClickEvent(){
+  console.log('I was clicked!')
+}
+Or we could use an anonymous callback function:
+
+const button = document.querySelector('.js-button')
+button.addEventListener('click', function() {
+  console.log('I was clicked!')
+})
+
+
+Object Oriented JS
+
+class Car {
+  constructor(model, color) {
+    this.model = model
+    this.color = color
+  }
+}
+
+class Toyota extends Car {
+  constructor(model, color) {
+    super(model, color)
+    
+    this.make = 'Toyota'
+  }
+  drive() {
+    console.log('vroom vroom')
+  }
+}
+

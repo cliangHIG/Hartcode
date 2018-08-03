@@ -1,0 +1,210 @@
+
+
+NodeJS - Express - EJS
+
+
+Step 1: npm init -y ----to initialize a Node project in the directory and use all the default details
+
+Step 2: npm install express
+	npm install body-parser --- for forms
+
+Step 3: touch index.js
+	-const express = require('express')
+	-const app = express()
+	-const bodyParser = require('body-parser')
+
+	-app.use(express.static(__dirname + '/public')); --- linking css files
+	-app.use(bodyParser.urlencoded ({extended: true}));
+
+Step 4: app.get('/', (req, res) => { res.send('hello!');}) ---routes
+
+Step 5: app.listen(4000, () => console.log("Running on port 4000!")) ---server setup
+
+
+
+Template in Express - EJS
+
+	npm install ejs
+
+Set the View engine - before routes
+
+	app.set('views', './views');
+	app.set('view engine', 'ejs');	
+
+Routes
+
+	app.get('/',(req,res) => {
+  	res.redirect('/99');
+	});
+
+	app.get('/:numberOfBottles?', (req, res) => {
+  	let numberOfBottles = req.params.numberOfBottles || 99;
+  	let next = numberOfBottles - 1;
+  	if (numberOfBottles > 1){
+    	res.send(`${numberOfBottles} bottles of beer on the wall<br><a href='/${next}'>Take one down pass it around`);
+  	}
+ 	 else{
+    	res.send('1 bottle of beer on the wall <a href='/'>Start Over</a>');toc
+  	}
+	});
+
+
+Render the View - the view name & object
+	mkdir views
+	touch views/index.ejs
+	touch views/layout.ejs
+	
+	app.get('/', (req, res) => {
+  	res.render('index');
+	});
+
+
+Create Views in Express 
+
+ejs file -
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Welcome to Express!</title>
+  </head>
+
+  <body>
+    <h1>Introduction to Express</h1>
+    <div class="container">
+      <p> This is a paragraph of text. Yay!</p>
+
+
+	<%= bottles %> bottles of beer on the wall.
+	<% if (next) {%>
+  	<a href='/<%= next %>'>Take One Down, Pass it Around</a>
+	<% } else { %>
+  	<a href='/'>Start Over</a>
+	<% } %>
+    
+</div>
+  </body>cd 
+</html>
+
+
+js file -
+
+	app.get("/:numberOfBottles?", (req, res) =>{
+  	var numberOfBottles = req.params.numberOfBottles || 99;
+  	var next = numberOfBottles - 1;
+  	res.render("index", {bottles: numberOfBottles, next: next});
+	})
+
+
+Static Content - 
+
+adding CSS to each ejs files
+
+<link rel="stylesheet" type="text/css" href="/css/styles.css">
+
+adding this to js file
+
+app.use(express.static(__dirname + '/public'));
+
+
+Middleware - body-parser
+
+Step 1: npm install body-parser
+Step 2: const bodyParser = require('body-parser');
+Step 3: 
+	app.use(bodyParser.json()) --- handles json post requests
+	app.use(bodyParser.urlencoded({ extended: true })); --- handles form submissions
+
+Step 4: update index.js file
+	app.post('/', (req, res) => {
+  	res.send(`hello ${req.body.player_name}`)
+	})
+Step 5: Update form inputs
+
+	index.js file-
+	app.post('/', (req, res) => {cd 
+  	res.render('index', {
+    	player_name: req.body.player_name,
+    	bottles: 99,
+  	})
+	})
+
+	ejs file -
+	<p><% if (player_name) {%>
+ 	 Hey <%= player_name %>, there are <%= bottles %> bottles left on the wall.
+	<% } %></p>
+	
+In Express, query string parameters are available in the request.query object. Let's use Query Parameters to pass along the player's name to each /:numberOfBottles route.
+
+	app.get("/:numberOfBottles", (req, res) =>{
+  	var numberOfBottles = req.params.numberOfBottles || 99;
+  	var next = numberOfBottles - 1;
+  	var player_name = req.query.player_name;
+  	res.render('index', {
+    	bottles: numberOfBottles,
+    	next: next,
+    	player_name: player_name});
+	});
+Be sure to update the link in the html to send the name as a query string!
+
+	<a href='/<%= next %>?player_name=<%= player_name %>'>Take One Down, Pass it Around</a>
+
+
+
+Partials
+
+	mkdir views/partials
+	touch views/partials/header.ejs
+
+	<%- include('partials/header') %>
+    	<h1>Welcome to 99 Bottles</h1>
+    	<form action="/" method="post">
+     	 <label for="player_name">Please enter your name</label>
+      	<input id="player_name" type="text" name="player_name">
+      	<input type="submit">
+   	 </form>
+  	</body>
+	</html>
+
+touch .gitignore
+
+
+
+Forms
+
+ejs file -
+<ul>
+    <% quotes.forEach(function (quote) { %>
+   <li>
+      <span> "<%=quote.text %>"</span>
+      <span> - <%=quote.author %></span>
+    </li>
+
+<h3>Now you can enter your own...</h3>
+<form action="/quotes" method="POST">
+<input type="text" placeholder="author" name="author">
+<input type="text" placeholder="type quote here" name="text">
+<input type="submit">
+</form>
+
+
+app.post('/quotes', (req, res) => {
+    //get form data from user
+    //create new quote object with new data
+    //put new quote objext into our quotes array
+    //send the user back to read all quotes
+    let newQuote = {
+        author: req.body.author,
+        text: req.body.author
+    }
+    quotes.push(newQuote);
+    res.redirect('/');
+
+})
+
+
+Debugging 
+
+nodemon --inspect index.js
+

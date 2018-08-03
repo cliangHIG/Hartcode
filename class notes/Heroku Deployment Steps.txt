@@ -1,0 +1,65 @@
+
+
+	$ git checkout -b deploying
+
+	$ npm install heroku
+
+	$ heroku --version
+
+	$ heroku login
+
+	$ cd app-directory folder
+
+	$ heroku create 
+
+	$ npm install dotenv
+	$ touch .env
+	$ touch .Procfile
+
+
+	
+
+// index.js
+require('dotenv').config
+
+app.set('port', process.env.PORT || 3000)
+
+app.listen(app.get('port'), () =>{
+   console.log(`running on PORT: ${app.get('port')}`)
+});
+
+//.env
+
+DB_HOST=localhost
+DB_USER=inclassuser
+DB_PASS-Hartford1810
+
+//.Procfile
+web: node index.js
+
+
+$ git push heroku deploying:master
+$ heroku open
+heroku addons:create heroku-postgresql:hobby-dev
+
+
+// connection.js
+const sequelize = new Sequelize(process.env.DATABASE_URL)
+
+git checkout deploying
+git merge master
+git add .
+git commit 
+git push heroku ..
+
+$ heroku run:detached node db/migrate
+$ heroku run:detached node db/seed
+$ git push heroku deploying:master
+$ heroku open
+
+
+$ heroku logs             # print the most recent 
+
+$ heroku ps:stop run.98519(process id)
+$ heroku ps
+

@@ -1,0 +1,39 @@
+
+var cards = generateRandomCard();
+var players = document.querySelector(".players")
+var pickedCard =pickCard ();
+var cardDisplay = document.querySelector
+var reset = document.querySelector
+
+for (var i=0; i<players.length; i++) {
+players[i]=cards[i];
+players[i].addEventlistener("click", function() {
+if (clickedColor === pickedColor) {
+messageDisplay.textContent ="correct
+} Else {
+messageDisplay.textContent ="Try again".
+}
+
+function changeCards (card) {
+for (var i =0; i<players.length; i++) {
+players[i].inntertext = card
+}
+
+function pickedCard () {
+var random = Math.floor...
+
+}
+
+function generateRandomCards (card) {
+var arr = [],
+for (var i = 0; i<card; i++ {
+arr.push(randomCard())
+}
+return arr;
+}
+
+function randomColor () {
+var r = Math.floor..}
+
+
+

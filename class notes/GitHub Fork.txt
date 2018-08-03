@@ -1,0 +1,4 @@
+
+git remote -v
+git remote add fork https://"url"
+git push fork master

@@ -1,0 +1,137 @@
+
+
+CREATE DATABASE generalassembly; -- Don't forget the semicolon!
+SHOW DATABASES;
+
+USE generalassembly; -- Connect to generalassembly database
+
+\d -- Lists all tables
+
+CREATE TABLE students (
+  id SERIAL PRIMARY KEY,
+  first_name VARCHAR(255) NOT NULL,
+  last_name VARCHAR(255) NOT NULL,
+  quote TEXT,
+  birthday VARCHAR(255),
+  ssn INT NOT NULL,
+  UNIQUE(ssn)
+); -- Here we are defining a schema. More on this in just a bit...
+
+\d
+
+SELECT * FROM students;
+
+INSERT INTO students (first_name, last_name) VALUES ('Andy', 'Whitely');
+-- This won't work!
+
+INSERT INTO students (first_name, last_name, quote, birthday, ssn) VALUES ('Andy', 'Whitely', 'Two goldfish are in a tank. One says, "Know how to drive this thing?"', 'April 7', 8675309);
+SELECT * FROM students;
+
+UPDATE students SET first_name = 'Andrew' WHERE first_name = 'Andy';
+SELECT * FROM students;
+
+DELETE FROM students WHERE first_name = 'Andy';
+DELETE FROM students WHERE first_name = 'Andrew';
+
+SELECT * FROM students;
+
+DROP TABLE students; -- "drop" means to delete an entire table or database
+
+DROP DATABASE generalassembly;
+
+\q --quits
+
+
+
+INSERT adds a row to a table...
+
+INSERT INTO authors(name, nationality, birth_year) VALUES ('Adam Bray', 'United States of America', 1985);
+
+
+SELECT returns rows from a table...
+
+-- select all columns from all rows
+SELECT * FROM authors;
+
+-- select only some columns, from all rows
+SELECT name, birth_year FROM authors;
+
+-- select rows that meet certain criteria
+SELECT * FROM authors WHERE name = 'James Baldwin';
+
+UPDATE updates values for one or more rows...
+
+UPDATE authors SET name = 'Adam B.', birth_year = 1986 WHERE name = 'Adam Bray';
+
+
+DELETE removes rows from a table...
+
+DELETE FROM authors WHERE name = 'Adam B.';
+End of You Do: Building Our Database
+
+
+-- BASIC QUERIES
+-- Unless otherwise stated, all queries should return all columns
+
+-- Get all information about all authors
+SELECT * FROM authors;
+-- Get just the name and birth year of all authors
+SELECT name, birth_year FROM authors;
+-- Get all authors born in the 20th centruy or later
+SELECT * FROM authors WHERE birth_year > 1900;
+-- Get all authors born in the USA
+SELECT * FROM authors WHERE nationality = 'United States of America';
+-- Get all books published on 1985
+SELECT * FROM books WHERE publication_date = '1985';
+-- Get all books published before 1989
+SELECT * FROM books WHERE publication_date <1989;
+-- Get just the title of all books.
+SELECT title FROM books;
+-- Get just the year that 'A Dance with Dragons' was published
+SELECT publication_date From books WHERE title ='A Dance with Dragons';
+-- Get all books which have `the` somewhere in their title (hint, look up LIKE/ILIKE)
+SELECT * FROM books WHERE title RLIKE 'The';
+-- Add yourself as an author
+INSERT INTO authors(name) VALUE ('Cindy Liang');
+-- Add two books that you'd like to write (you can hard-code your id as the author id)
+INSERT INTO books(title, author_id) VALUE ('Cind Book1', 9);
+INSERT INTO books(title, author_id) VALUE ('Cind Book2', 9);
+-- Update one of your books to have a new title
+UPDATE books SET title ='Cind Book1updated' WHERE title = 'Cind Book1';
+-- Delete your books
+DELETE FROM books WHERE title = 'Cind Book1updated';
+ DELETE FROM books WHERE title = 'Cind Book2';
+-- Delete your author entry
+DELETE FROM authors WHERE name = 'Cindy Liang';
+
+
+
+All columns for all players from the New York Knicks (NYK)
+SELECT team FROM players WHERE team = 'NYK';
+
+All columns for all players from the Indiana Packers (IND) who are under 26 years old
+SELECT * FROM players WHERE team = 'IND', age <26;
+
+All columns for all players, ordered from least points scored to most points scored
+SELECT name, points FROM players ORDER BY points ASC;
+
+Name and Points per game (points/games), for the players with the top 20 points per game
+SELECT name, points FROM players ORDER BY points DESC LIMIT 20;
+
+The average age for all players
+SELECT AVG(age) FROM players;
+
+The average age for all players on the Oklahoma City Thunder (OKC)
+SELECT AVG(age) FROM players WHERE team = 'OKC';
+
+The average age for all players who played more than 40 games
+SELECT AVG(age) FROM players WHERE games > 40;
+
+The team and total points scored from all players on that team (team points), ordered from most team points to least
+SELECT team, points FROM players GROUP BY team ORDER BY points DESC;
+
+Age and the average points per game for that age, ordered from youngest to oldest
+SELECT age, AVG(points) FROM players GROUP BY games ORDER BY age ASC;
+
+Team and the the number of players who score above 12 points per game on that team, ordered from most to least
+SELECT team, COUNT(name) FROM players WHERE points >12  GROUP BY team ORDER BY points DESC;

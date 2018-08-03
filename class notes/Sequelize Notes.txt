@@ -1,0 +1,132 @@
+
+	psql -U postgres
+
+	CREATE DATABASE generalassembly;
+
+	CREATE USER inclassuser WITH PASSWORD 'Hartford1810';
+
+	GRANT ALL PRIVILEGES ON DATABASE generalassembly TO inclassuser;
+
+	$ npm init -y
+	$ npm install sequelize
+	$ npm install --save pg pg-hstore
+
+mkdir db
+  -mkdir seed_data
+     -touch artist_data.json
+     -touch song_data.json
+  -touch connection.js
+  -touch migrate.js
+  -touch seed.js
+
+mkdir models
+   -touch Artist.js
+   -touch Song.js
+
+
+
+
+connection.js - store the connection to the database
+
+const Sequelize = require('sequelize');
+const sequelize = new Sequelize('tunr', 'inclassuser', 'Hartford1810', {
+    host: 'localhost',
+    dialect: 'postgres',
+    operatorsAliases: false
+});
+
+const Artist = sequelize.import('../models/Artist');
+const Song = sequelize.import('../models/Song');
+
+Song.belongsTo(Artist);
+Artist.hasMany(Song);
+
+sequelize.authenticate().then(() => {
+    console.log('connected');
+});
+
+module.exports = {
+    Sequelize,
+    sequelize,
+    models: {
+        Song,
+        Artist
+    }
+};
+
+--run db/connection.js file
+
+
+
+
+
+migrate.js - to make changes to the database
+
+const connection = require("./connection");
+
+connection.sequelize.sync({ force: true }).then(() => {
+  process.exit();
+});
+
+-- node db/migrate.js
+
+
+
+Artist.js -- creating schema
+
+module.exports = (sequelize, DataTypes) => {
+  return sequelize.define("artist", {
+    name: DataTypes.STRING,
+    photoUrl: DataTypes.STRING,
+    nationality: DataTypes.STRING
+  });
+};
+
+
+
+seed.js - to put data from json into our database
+
+
+var DB = require("./connection");
+
+var Seeds = {
+  artists: require("./seed_data/artist_data"),
+  songs: require("./seed_data/song_data")
+};
+
+// bulkCreate()- Create and insert multiple instances in bulk.
+DB.models.Artist.bulkCreate(Seeds.artists)
+  .then(function() {
+    // findAll()- Search for multiple instances.
+    return DB.models.Artist.findAll();
+  })
+  .then(function(artists) {
+    var a,
+      artist,
+      s,
+      song,
+      songs,
+      output = [];
+    for (a = 0; a < artists.length; a++) {
+      artist = artists[a];
+      songs = Seeds.songs[artist.name];
+      for (s = 0; s < songs.length; s++) {
+        song = songs[s];
+        song.artistId = artist.id;
+        output.push(song);
+      }
+    }
+    return DB.models.Song.bulkCreate(output);
+  })
+  .then(function() {
+    // Ends the process synchronously with the specified code
+    process.exit();
+  });
+
+
+
+
+
+
+
+
